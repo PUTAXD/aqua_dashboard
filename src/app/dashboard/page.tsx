@@ -1,50 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "./components/data-table";
-import { AquaData } from "@/type/aquaData";
-import { SectionCards } from "./components/section-cards"; // Corrected import path
+import { SectionCards } from "./components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { createClient } from "@/lib/supabase/client";
+import { useAquaData } from "@/hooks/use-aqua-data";
 
 export default function Page() {
-  const [aquaData, setAquaData] = useState<AquaData[]>([]);
-  const router = useRouter();
-
-  useEffect(() => {
-    const supabase = createClient();
-
-    const checkAuthAndFetchData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.push("/login");
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from("data_aqua")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (error) {
-        console.error("Error fetching aqua data for dashboard:", error);
-      } else {
-        setAquaData(data || []);
-      }
-    };
-
-    checkAuthAndFetchData();
-  }, [router]);
-
-  console.log(aquaData);
+  const aquaData = useAquaData();
 
   return (
     <SidebarProvider
