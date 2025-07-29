@@ -9,11 +9,46 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useAquaData } from "@/hooks/use-aqua-data";
 import { TemperatureChart } from "./components/temperature-chart";
 import { AquaData } from "@/type/aquaData";
+import { OzoneChart } from "./components/ozone-chart";
+import { AmmoniaChart } from "./components/ammonia-chart";
+import { OxygenChart } from "./components/oxygen-chart";
+import { ConductivityChart } from "./components/conductivity-chart";
+import { TdsChart } from "./components/tds-chart";
 
 type TemperatureAquaData = {
   Date: string;
   Time: string;
   temperature: number;
+};
+
+type OzoneAquaData = {
+  Date: string;
+  Time: string;
+  ozone: number;
+};
+
+type AmmoniaAquaData = {
+  Date: string;
+  Time: string;
+  ammonia: number;
+};
+
+type OxygenAquaData = {
+  Date: string;
+  Time: string;
+  oxygen: number;
+};
+
+type ConductivityAquaData = {
+  Date: string;
+  Time: string;
+  conductivity: number;
+};
+
+type TdsAquaData = {
+  Date: string;
+  Time: string;
+  tds: number;
 };
 
 export default function Page() {
@@ -30,6 +65,66 @@ export default function Page() {
     };
   });
   console.log("Transformed Temperature Data:", temperatureAquaData);
+
+  const ozoneAquaData: OzoneAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      ozone: data.ozone,
+    };
+  });
+  console.log("Transformed Ozone Data:", ozoneAquaData);
+
+  const ammoniaAquaData: AmmoniaAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      ammonia: data.ammonium, // Corrected from data.ammonia to data.ammonium
+    };
+  });
+  console.log("Transformed Ammonia Data:", ammoniaAquaData);
+
+  const oxygenAquaData: OxygenAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      oxygen: data.oxygen,
+    };
+  });
+  console.log("Transformed Oxygen Data:", oxygenAquaData);
+
+  const conductivityAquaData: ConductivityAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      conductivity: data.conductivity,
+    };
+  });
+  console.log("Transformed Conductivity Data:", conductivityAquaData);
+
+  const tdsAquaData: TdsAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      tds: data.tds,
+    };
+  });
+  console.log("Transformed TDS Data:", tdsAquaData);
 
   return (
     <SidebarProvider
@@ -57,13 +152,19 @@ export default function Page() {
                   <TemperatureChart data={temperatureAquaData} />
                 </div>
                 <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive/>
+                  <OzoneChart data={ozoneAquaData} />
                 </div>
                 <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
+                  <AmmoniaChart data={ammoniaAquaData} />
                 </div>
                 <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
+                  <OxygenChart data={oxygenAquaData} />
+                </div>
+                <div className="px-4 lg:px-6">
+                  <ConductivityChart data={conductivityAquaData} />
+                </div>
+                <div className="px-4 lg:px-6">
+                  <TdsChart data={tdsAquaData} />
                 </div>
               </div>
               <DataTable data={aquaData} />
