@@ -167,13 +167,9 @@ export default function Page() {
                 </div>
                 <div className="px-4 lg:px-6">
                   <ConductivityChart data={conductivityAquaData} />
-
-                <div className="w-1/2 px-4 lg:px-6">
-                  <ChartLineLinear />
                 </div>
-                <div className="w-1/2 px-4 lg:px-6">
+                <div className="px-4 lg:px-6">
                   <ChartLineLinear />
-
                 </div>
                 <div className="px-4 lg:px-6">
                   <TdsChart data={tdsAquaData} />

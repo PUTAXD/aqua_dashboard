@@ -131,13 +131,19 @@ export function ConductivityChart({ data }: ConductivityChartProps) {
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
-              tickFormatter={(value) => format(new Date(`2000-01-01T${value}`), "HH:mm")}
+              tickFormatter={(value) => {
+                const date = new Date(`2000-01-01T${value}`);
+                return isNaN(date.getTime()) ? value : format(date, "HH:mm");
+              }}
             />
             <ChartTooltip
               cursor={false}
               content={
                 <ChartTooltipContent
-                  labelFormatter={(value) => format(new Date(`2000-01-01T${value}`), "HH:mm")}
+                  labelFormatter={(value) => {
+                    const date = new Date(`2000-01-01T${value}`);
+                    return isNaN(date.getTime()) ? value : format(date, "HH:mm");
+                  }}
                   indicator="dot"
                 />
               }

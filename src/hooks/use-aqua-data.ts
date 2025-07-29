@@ -26,7 +26,7 @@ export function useAquaData() {
         .from("data_aqua")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(1);
+        .limit(50);
 
       if (error) {
         console.error("Error fetching aqua data for dashboard:", error);
