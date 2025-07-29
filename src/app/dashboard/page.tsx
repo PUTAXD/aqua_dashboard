@@ -15,7 +15,7 @@ import { AmmoniaChart } from "./components/ammonia-chart";
 import { OxygenChart } from "./components/oxygen-chart";
 import { ConductivityChart } from "./components/conductivity-chart";
 import { TdsChart } from "./components/tds-chart";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "./components/app-sidebar";
 
 type TemperatureAquaData = {
   Date: string;
@@ -68,7 +68,7 @@ export default function Page() {
       };
     }
   );
-  console.log("Transformed Temperature Data:", temperatureAquaData);
+  // console.log("Transformed Temperature Data:", temperatureAquaData);
 
   const ozoneAquaData: OzoneAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
@@ -80,7 +80,7 @@ export default function Page() {
       ozone: data.ozone,
     };
   });
-  console.log("Transformed Ozone Data:", ozoneAquaData);
+  // console.log("Transformed Ozone Data:", ozoneAquaData);
 
   const ammoniaAquaData: AmmoniaAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
@@ -92,7 +92,7 @@ export default function Page() {
       ammonia: data.ammonium, // Corrected from data.ammonia to data.ammonium
     };
   });
-  console.log("Transformed Ammonia Data:", ammoniaAquaData);
+  // console.log("Transformed Ammonia Data:", ammoniaAquaData);
 
   const oxygenAquaData: OxygenAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
@@ -104,7 +104,7 @@ export default function Page() {
       oxygen: data.oxygen,
     };
   });
-  console.log("Transformed Oxygen Data:", oxygenAquaData);
+  // console.log("Transformed Oxygen Data:", oxygenAquaData);
 
   const conductivityAquaData: ConductivityAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
@@ -116,7 +116,7 @@ export default function Page() {
       conductivity: data.conductivity,
     };
   });
-  console.log("Transformed Conductivity Data:", conductivityAquaData);
+  // console.log("Transformed Conductivity Data:", conductivityAquaData);
 
   const tdsAquaData: TdsAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
@@ -128,7 +128,7 @@ export default function Page() {
       tds: data.tds,
     };
   });
-  console.log("Transformed TDS Data:", tdsAquaData);
+  // console.log("Transformed TDS Data:", tdsAquaData);
 
   return (
     <SidebarProvider
