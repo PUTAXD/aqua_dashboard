@@ -168,9 +168,9 @@ export default function Page() {
                 <div className="px-4 lg:px-6">
                   <ConductivityChart data={conductivityAquaData} />
                 </div>
-                <div className="px-4 lg:px-6">
+                {/* <div className="px-4 lg:px-6">
                   <ChartLineLinear />
-                </div>
+                </div> */}
                 <div className="px-4 lg:px-6">
                   <TdsChart data={tdsAquaData} />
                 </div>

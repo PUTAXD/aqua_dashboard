@@ -42,7 +42,7 @@ type TemperatureDataItem = {
 const chartConfig = {
   temperature: {
     label: "Temperature",
-    color: "var(--primary)",
+    color: "hsl(24 9.8% 10%)", // A shade of orange
   },
 } satisfies ChartConfig
 
@@ -114,12 +114,12 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
               <linearGradient id="fillTemperature" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-temperature)"
+                  stopColor="var(--orange)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-temperature)"
+                  stopColor="var(--orange)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -156,9 +156,9 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
             />
             <Area
               dataKey="temperature"
-              type="natural"
+              type="linear"
               fill="url(#fillTemperature)"
-              stroke="var(--color-temperature)"
+              stroke="var(--orange)"
               stackId="a"
             />
           </AreaChart>

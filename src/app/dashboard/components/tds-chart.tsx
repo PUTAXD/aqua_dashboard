@@ -156,7 +156,7 @@ export function TdsChart({ data }: TdsChartProps) {
             />
             <Area
               dataKey="tds"
-              type="natural"
+              type="linear"
               fill="url(#fillTds)"
               stroke="var(--color-tds)"
               stackId="a"

@@ -156,7 +156,7 @@ export function OxygenChart({ data }: OxygenChartProps) {
             />
             <Area
               dataKey="oxygen"
-              type="natural"
+              type="linear"
               fill="url(#fillOxygen)"
               stroke="var(--color-oxygen)"
               stackId="a"

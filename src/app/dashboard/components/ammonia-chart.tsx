@@ -156,7 +156,7 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
             />
             <Area
               dataKey="ammonia"
-              type="natural"
+              type="linear"
               fill="url(#fillAmmonia)"
               stroke="var(--color-ammonia)"
               stackId="a"

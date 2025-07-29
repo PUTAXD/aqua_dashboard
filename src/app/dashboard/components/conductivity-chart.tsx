@@ -78,7 +78,7 @@ export function ConductivityChart({ data }: ConductivityChartProps) {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Conductivity</CardTitle>
+        <CardTitle>Conductivity µS/cm</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
             Conductivity data for the selected day, every 30 minutes.
@@ -152,15 +152,15 @@ export function ConductivityChart({ data }: ConductivityChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => `${value} µS/cm`}
+              tickFormatter={(value) => `${value}`}
             />
             <Area
               dataKey="conductivity"
-              type="natural"
+              type="linear"
               fill="url(#fillConductivity)"
               stroke="var(--color-conductivity)"
               stackId="a"
-            />
+            />  
           </AreaChart>
         </ChartContainer>
       </CardContent>

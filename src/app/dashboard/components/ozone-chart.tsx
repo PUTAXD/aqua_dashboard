@@ -156,7 +156,7 @@ export function OzoneChart({ data }: OzoneChartProps) {
             />
             <Area
               dataKey="ozone"
-              type="natural"
+              type="linear"
               fill="url(#fillOzone)"
               stroke="var(--color-ozone)"
               stackId="a"
