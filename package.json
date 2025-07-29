@@ -29,6 +29,7 @@
     "@supabase/supabase-js": "^2.52.1",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.21.3",
+    "@types/react-resizable": "^3.0.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

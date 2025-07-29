@@ -9,7 +9,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useAquaData } from "@/hooks/use-aqua-data";
 import { TemperatureChart } from "./components/temperature-chart";
 import { AquaData } from "@/type/aquaData";
-
+import { ChartLineLinear } from "./components/do-chart";
 type TemperatureAquaData = {
   Date: string;
   Time: string;
@@ -19,16 +19,18 @@ type TemperatureAquaData = {
 export default function Page() {
   const aquaData = useAquaData();
 
-  const temperatureAquaData: TemperatureAquaData[] = aquaData.map((data: AquaData) => {
-    const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
-    return {
-      Date: date,
-      Time: time,
-      temperature: data.temperature,
-    };
-  });
+  const temperatureAquaData: TemperatureAquaData[] = aquaData.map(
+    (data: AquaData) => {
+      const dateTime = new Date(data.terminaltime);
+      const date = dateTime.toISOString().split("T")[0];
+      const time = dateTime.toTimeString().split(" ")[0];
+      return {
+        Date: date,
+        Time: time,
+        temperature: data.temperature,
+      };
+    }
+  );
   console.log("Transformed Temperature Data:", temperatureAquaData);
 
   return (
@@ -56,11 +58,11 @@ export default function Page() {
                 <div className="px-4 lg:px-6">
                   <TemperatureChart data={temperatureAquaData} />
                 </div>
-                <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive/>
+                <div className="w-1/2 px-4 lg:px-6">
+                  <ChartLineLinear />
                 </div>
-                <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
+                <div className="w-1/2 px-4 lg:px-6">
+                  <ChartLineLinear />
                 </div>
                 <div className="px-4 lg:px-6">
                   <ChartAreaInteractive />
