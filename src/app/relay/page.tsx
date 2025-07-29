@@ -75,8 +75,8 @@ export default function RelayPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-8">Relay Control</h1>
+    <div className="flex flex-col p-4">
+      <h1 className="text-2xl font-bold mb-8 text-center">Relay Control</h1>
       <div className="grid grid-cols-2 gap-4">
         <Button
           className={cn(

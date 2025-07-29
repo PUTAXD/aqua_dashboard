@@ -1,6 +1,6 @@
 "use client";
 
-import { AppSidebar } from "@/components/app-sidebar";
+
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "./components/data-table";
 import { SectionCards } from "./components/section-cards";
@@ -15,6 +15,7 @@ import { AmmoniaChart } from "./components/ammonia-chart";
 import { OxygenChart } from "./components/oxygen-chart";
 import { ConductivityChart } from "./components/conductivity-chart";
 import { TdsChart } from "./components/tds-chart";
+import { AppSidebar } from "@/components/app-sidebar";
 
 type TemperatureAquaData = {
   Date: string;
@@ -138,7 +139,7 @@ export default function Page() {
         } as React.CSSProperties
       }
     >
-      {/* <AppSidebar variant="inset" /> */}
+      <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
