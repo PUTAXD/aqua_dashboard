@@ -7,9 +7,29 @@ import { SectionCards } from "./components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useAquaData } from "@/hooks/use-aqua-data";
+import { TemperatureChart } from "./components/temperature-chart";
+import { AquaData } from "@/type/aquaData";
+
+type TemperatureAquaData = {
+  Date: string;
+  Time: string;
+  temperature: number;
+};
 
 export default function Page() {
   const aquaData = useAquaData();
+
+  const temperatureAquaData: TemperatureAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      temperature: data.temperature,
+    };
+  });
+  console.log("Transformed Temperature Data:", temperatureAquaData);
 
   return (
     <SidebarProvider
@@ -34,10 +54,10 @@ export default function Page() {
               />
               <div className="space-y-6">
                 <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
+                  <TemperatureChart data={temperatureAquaData} />
                 </div>
                 <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
+                  <ChartAreaInteractive/>
                 </div>
                 <div className="px-4 lg:px-6">
                   <ChartAreaInteractive />
