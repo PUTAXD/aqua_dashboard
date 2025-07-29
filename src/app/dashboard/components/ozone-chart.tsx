@@ -42,7 +42,7 @@ type OzoneDataItem = {
 const chartConfig = {
   ozone: {
     label: "Ozone",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
 
@@ -114,12 +114,12 @@ export function OzoneChart({ data }: OzoneChartProps) {
               <linearGradient id="fillOzone" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-ozone)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-ozone)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -158,7 +158,7 @@ export function OzoneChart({ data }: OzoneChartProps) {
               dataKey="ozone"
               type="linear"
               fill="url(#fillOzone)"
-              stroke="var(--color-ozone)"
+              stroke="var(--chart-2)"
               stackId="a"
             />
           </AreaChart>

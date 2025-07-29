@@ -114,12 +114,12 @@ export function ConductivityChart({ data }: ConductivityChartProps) {
               <linearGradient id="fillConductivity" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-conductivity)"
+                  stopColor="var(--chart-4)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-conductivity)"
+                  stopColor="var(--chart-4)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -158,7 +158,7 @@ export function ConductivityChart({ data }: ConductivityChartProps) {
               dataKey="conductivity"
               type="linear"
               fill="url(#fillConductivity)"
-              stroke="var(--color-conductivity)"
+              stroke="var(--chart-4)"
               stackId="a"
             />  
           </AreaChart>

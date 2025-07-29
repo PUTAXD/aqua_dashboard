@@ -114,12 +114,12 @@ export function OxygenChart({ data }: OxygenChartProps) {
               <linearGradient id="fillOxygen" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-oxygen)"
+                  stopColor="var(--chart-3)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-oxygen)"
+                  stopColor="var(--chart-3)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -158,7 +158,7 @@ export function OxygenChart({ data }: OxygenChartProps) {
               dataKey="oxygen"
               type="linear"
               fill="url(#fillOxygen)"
-              stroke="var(--color-oxygen)"
+              stroke="var(--chart-3)"
               stackId="a"
             />
           </AreaChart>

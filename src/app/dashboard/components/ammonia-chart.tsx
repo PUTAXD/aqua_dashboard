@@ -42,7 +42,7 @@ type AmmoniaDataItem = {
 const chartConfig = {
   ammonia: {
     label: "Ammonia",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
@@ -114,12 +114,12 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
               <linearGradient id="fillAmmonia" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-ammonia)"
+                  stopColor="var(--chart-1)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-ammonia)"
+                  stopColor="var(--chart-1)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -158,7 +158,7 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
               dataKey="ammonia"
               type="linear"
               fill="url(#fillAmmonia)"
-              stroke="var(--color-ammonia)"
+              stroke="var(--chart-1)"
               stackId="a"
             />
           </AreaChart>
