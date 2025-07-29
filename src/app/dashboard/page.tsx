@@ -15,7 +15,6 @@ import { AmmoniaChart } from "./components/ammonia-chart";
 import { OxygenChart } from "./components/oxygen-chart";
 import { ConductivityChart } from "./components/conductivity-chart";
 import { TdsChart } from "./components/tds-chart";
-import { ChartLineLinear } from "./components/do-chart";
 
 type TemperatureAquaData = {
   Date: string;
