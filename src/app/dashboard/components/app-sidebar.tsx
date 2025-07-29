@@ -1,5 +1,3 @@
-// "use client"
-
 "use client"
 
 import * as React from "react"
@@ -7,7 +5,12 @@ import { useEffect, useState } from "react"
 import {
   IconDashboard,
   IconSettings,
-  IconInnerShadowTop,
+  IconGauge,
+  IconBubble,
+  IconFlame,
+  IconSnowflake,
+  IconBowl,
+  IconClock,
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -24,6 +27,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import { createClient } from "@/lib/supabase/client"
 
 const data = {
@@ -110,8 +114,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <IconGauge className="!size-5" />
+                <span className="text-base font-semibold">Control Panel</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -121,9 +125,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2 px-4">
-            <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">Relay Control</h3>
+            <h3 className="text-sm font-semibold">Relay Control</h3>
+            <Separator />
             <div className="flex items-center justify-between space-x-2">
-              <Label htmlFor="nano-bubble">Nano Bubble</Label>
+              <div className="flex items-center gap-2">
+                <IconBubble className="size-5" />
+                <Label htmlFor="nano-bubble">Nano Bubble</Label>
+              </div>
               <Switch
                 id="nano-bubble"
                 checked={nanoBubble}
@@ -134,7 +142,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               />
             </div>
             <div className="flex items-center justify-between space-x-2">
-              <Label htmlFor="heater">Heater</Label>
+              <div className="flex items-center gap-2">
+                <IconFlame className="size-5" />
+                <Label htmlFor="heater">Heater</Label>
+              </div>
               <Switch
                 id="heater"
                 checked={heater}
@@ -145,7 +156,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               />
             </div>
             <div className="flex items-center justify-between space-x-2">
-              <Label htmlFor="chiller">Chiller</Label>
+              <div className="flex items-center gap-2">
+                <IconSnowflake className="size-5" />
+                <Label htmlFor="chiller">Chiller</Label>
+              </div>
               <Switch
                 id="chiller"
                 checked={chiller}
@@ -156,7 +170,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               />
             </div>
             <div className="flex items-center justify-between space-x-2">
-              <Label htmlFor="feeder">Feeder</Label>
+              <div className="flex items-center gap-2">
+                <IconBowl className="size-5" />
+                <Label htmlFor="feeder">Feeder</Label>
+              </div>
               <Switch
                 id="feeder"
                 checked={feeder}
@@ -164,6 +181,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   setFeeder(newVal);
                   updateRelay("feeder", newVal);
                 }}
+              />
+            </div>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupContent className="my-4 flex flex-col gap-2 px-4">
+            <h3 className="text-sm font-semibold">Automation</h3>
+            <Separator />
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex items-center gap-2">
+                <IconClock className="size-5" />
+                <Label htmlFor="automation-setting">Automation Setting</Label>
+              </div>
+              <Switch
+                id="automation-setting"
+                checked={false} // Placeholder for automation state
+                onCheckedChange={() => {}} // Placeholder for automation change handler
               />
             </div>
           </SidebarGroupContent>
