@@ -58,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         return;
       }
 
-      setNanoBubble(data.nano_bubble === 1);
+      setNanoBubble(data.aerator === 1);
       setHeater(data.heater === 1);
       setChiller(data.chiller === 1);
       setFeeder(data.feeder === 1);
@@ -81,7 +81,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
         (payload) => {
           const updated = payload.new;
-          setNanoBubble(updated.nano_bubble === 1);
+          setNanoBubble(updated.aerator === 1);
           setHeater(updated.heater === 1);
           setChiller(updated.chiller === 1);
           setFeeder(updated.feeder === 1);
@@ -139,7 +139,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 checked={nanoBubble}
                 onCheckedChange={(newVal: boolean) => {
                   setNanoBubble(newVal);
-                  updateRelay("nano_bubble", newVal);
+                  updateRelay("aerator", newVal);
                 }}
               />
             </div>
