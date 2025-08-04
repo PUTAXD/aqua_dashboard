@@ -26,7 +26,7 @@ export function useAquaData() {
         .from("data_aqua")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(1);
+        .limit(30);
 
       if (error) {
         console.error("Error fetching aqua data for dashboard:", error);
@@ -49,7 +49,7 @@ export function useAquaData() {
         (payload) => {
           setAquaData((prev) => {
             const updated = [payload.new as AquaData, ...prev];
-            return updated.slice(0, 50);
+            return updated;
           });
         }
       )
