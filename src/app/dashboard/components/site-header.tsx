@@ -34,7 +34,7 @@ export function SiteHeader() {
         />
         <h1 className="text-base font-medium">Aqua Dashboard</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={handleSignOut} disabled={loading}>
+          <Button variant="destructive" size="sm" onClick={handleSignOut} disabled={loading}>
             {loading ? "Signing out..." : "Sign Out"}
           </Button>
         </div>
