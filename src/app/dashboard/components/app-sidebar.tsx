@@ -42,6 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [heater, setHeater] = useState(false);
   const [chiller, setChiller] = useState(false);
   const [feeder, setFeeder] = useState(false);
+  const [isAuto, setAuto] = useState(false);
 
   // Ambil data awal
   useEffect(() => {
@@ -61,6 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       setHeater(data.heater === 1);
       setChiller(data.chiller === 1);
       setFeeder(data.feeder === 1);
+      setAuto(data.isAuto === 1);
     };
 
     fetchData();
@@ -96,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const updateRelay = async (field: string, value: boolean) => {
     const { error } = await supabase
       .from("relay_data")
-      .update({ [field]: value ? 1 : 0 })
+      .update({ [field]: value ? 1 : 2 })
       .eq("id", "7a00854c-687a-4742-8c88-1f982b257c26"); // Ganti dengan ID sebenarnya atau ambil dari user session
 
     if (error) {
@@ -196,8 +198,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </div>
               <Switch
                 id="automation-setting"
-                checked={false} // Placeholder for automation state
-                onCheckedChange={() => {}} // Placeholder for automation change handler
+                checked={isAuto} // Placeholder for automation state
+                onCheckedChange={(newVal : boolean) => 
+                  {setAuto(newVal);
+                  updateRelay("is_auto", newVal);
+
+                }} // Placeholder for automation change handler
               />
             </div>
           </SidebarGroupContent>
