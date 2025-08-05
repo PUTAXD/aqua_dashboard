@@ -85,6 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           setHeater(updated.heater === 1);
           setChiller(updated.chiller === 1);
           setFeeder(updated.feeder === 1);
+          setAuto(updated.isAuto === 1);
         }
       )
       .subscribe();
