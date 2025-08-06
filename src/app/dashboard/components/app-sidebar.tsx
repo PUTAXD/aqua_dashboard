@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [heater, setHeater] = useState(false);
   const [chiller, setChiller] = useState(false);
   const [feeder, setFeeder] = useState(false);
-  const [isAuto, setAuto] = useState(false);
+  const [is_auto, setAuto] = useState(false);
 
   // Ambil data awal
   useEffect(() => {
@@ -62,7 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       setHeater(data.heater === 1);
       setChiller(data.chiller === 1);
       setFeeder(data.feeder === 1);
-      setAuto(data.isAuto === 1);
+      setAuto(data.is_auto === 1);
     };
 
     fetchData();
@@ -85,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           setHeater(updated.heater === 1);
           setChiller(updated.chiller === 1);
           setFeeder(updated.feeder === 1);
-          setAuto(updated.isAuto === 1);
+          setAuto(updated.is_auto === 1);
         }
       )
       .subscribe();
@@ -195,11 +195,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="flex items-center justify-between space-x-2">
               <div className="flex items-center gap-2">
                 <IconClock className="size-5" />
-                <Label htmlFor="automation-setting">Automation Setting</Label>
+                <Label htmlFor="is_auto">Automation Setting</Label>
               </div>
               <Switch
-                id="automation-setting"
-                checked={isAuto} // Placeholder for automation state
+                id="is_auto"
+                checked={is_auto} // Placeholder for automation state
                 onCheckedChange={(newVal : boolean) => 
                   {setAuto(newVal);
                   updateRelay("is_auto", newVal);

@@ -9,5 +9,6 @@ export type AquaData = {
   conductivity: number;
   tds: number;
   relay: number;
+  is_auto: number;
   created_at: string;
 };
