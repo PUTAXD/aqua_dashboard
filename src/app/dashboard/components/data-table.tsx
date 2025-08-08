@@ -61,6 +61,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AquaData } from "@/type/aquaData";
+import { createClient } from "@/lib/supabase/client"; // Import Supabase client
 
 const columns: ColumnDef<AquaData>[] = [
   {
@@ -198,30 +199,44 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const handleDownload = () => {
+  const handleDownload = async () => { // Made function async
+    if (!startDate || !endDate) {
+      console.error("Start date and end date must be selected.");
+      return;
+    }
+
+    const supabase = createClient(); // Initialize Supabase client
+
+    // Adjust dates to cover the full day
+    const startOfDay = new Date(startDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const { data: downloadedData, error } = await supabase
+      .from('data_aqua') // Use the provided table name
+      .select('*')
+      .gte('terminaltime', startOfDay.toISOString()) // Use terminaltime column and ISO string for Supabase
+      .lte('terminaltime', endOfDay.toISOString()); // Use terminaltime column and ISO string for Supabase
+
+    if (error) {
+      console.error("Error fetching data from Supabase:", error);
+      return;
+    }
+
+    if (!downloadedData || downloadedData.length === 0) {
+      console.warn("No data found for the selected date range.");
+      return;
+    }
+
     const headers = table
       .getAllColumns()
       .filter((column) => column.getIsVisible() && column.id !== "id") // Exclude 'id' column and hidden columns
       .map((column) => column.id);
 
-    const filteredData = data.filter((row) => {
-      const rowDate = new Date(row.terminaltime);
-      const start = startDate ? new Date(startDate.setHours(0, 0, 0, 0)) : null;
-      const end = endDate ? new Date(endDate.setHours(23, 59, 59, 999)) : null;
-
-      if (start && end) {
-        return rowDate >= start && rowDate <= end;
-      } else if (start) {
-        return rowDate >= start;
-      } else if (end) {
-        return rowDate <= end;
-      }
-      return true; // No date filter applied
-    });
-
     const csv = [
       headers.join(","),
-      ...filteredData.map((row) =>
+      ...downloadedData.map((row) =>
         headers
           .map((header) => {
             let value = (row as any)[header]; // Use any to access properties dynamically
