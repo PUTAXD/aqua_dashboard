@@ -8,6 +8,7 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
   IconLayoutColumns,
+  IconDownload,
 } from "@tabler/icons-react";
 import {
   ColumnDef,
@@ -97,9 +98,7 @@ const columns: ColumnDef<AquaData>[] = [
     header: () => <div className="text-center">Temperature</div>,
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.temperature || row.original.temperature === 0
-          ? row.original.temperature
-          : "N/A"}
+        {row.original.temperature ?? 0}
       </div>
     ),
   },
@@ -108,9 +107,7 @@ const columns: ColumnDef<AquaData>[] = [
     header: () => <div className="text-center">Ozone</div>,
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.ozone || row.original.ozone === 0
-          ? row.original.ozone
-          : "N/A"}
+        {row.original.ozone ?? 0}
       </div>
     ),
   },
@@ -119,9 +116,7 @@ const columns: ColumnDef<AquaData>[] = [
     header: () => <div className="text-center">Ammonium</div>,
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.ammonium || row.original.ammonium === 0
-          ? row.original.ammonium
-          : "N/A"}
+        {row.original.ammonium ?? 0}
       </div>
     ),
   },
@@ -130,9 +125,7 @@ const columns: ColumnDef<AquaData>[] = [
     header: () => <div className="text-center">Oxygen</div>,
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.oxygen || row.original.oxygen === 0
-          ? row.original.oxygen
-          : "N/A"}
+        {row.original.oxygen ?? 0}
       </div>
     ),
   },
@@ -141,16 +134,14 @@ const columns: ColumnDef<AquaData>[] = [
     header: () => <div className="text-center">Conductivity</div>,
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.conductivity || row.original.conductivity === 0
-          ? row.original.conductivity
-          : "N/A"}
+        {row.original.conductivity ?? 0}
       </div>
     ),
   },
   {
     accessorKey: "tds",
     header: () => <div className="text-center">TDS</div>,
-    cell: ({ row }) => <div className="text-center">{row.original.tds}</div>,
+    cell: ({ row }) => <div className="text-center">{row.original.tds ?? 0}</div>,
   },
 ];
 
@@ -194,10 +185,72 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const handleDownload = () => {
+    const headers = table
+      .getAllColumns()
+      .filter((column) => column.getIsVisible() && column.id !== "id") // Exclude 'id' column and hidden columns
+      .map((column) => column.id);
+
+    const csv = [
+      headers.join(","),
+      ...data.map((row) =>
+        headers
+          .map((header) => {
+            let value = row[header as keyof AquaData];
+            if (header === "date" || header === "time") {
+              const date = new Date(row.terminaltime);
+              if (header === "date") {
+                value = new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                }).format(date);
+              } else {
+                value = new Intl.DateTimeFormat("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                  hour12: false,
+                }).format(date);
+              }
+            } else if (
+              header === "temperature" ||
+              header === "ozone" || // Changed from "ozone" to "Ozone"
+              header === "ammonium" ||
+              header === "oxygen" ||
+              header === "conductivity" ||
+              header === "tds"
+            ) {
+              value = value ?? 0;
+            }
+            return `"${value}"`;
+          })
+          .join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "aqua_data.csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-end px-4 lg:px-6 py-5">
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleDownload}>
+            <IconDownload />
+            <span className="hidden lg:inline">Download Data</span>
+            <span className="lg:hidden">Download</span>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">

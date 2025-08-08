@@ -78,10 +78,10 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Ammonia</CardTitle>
+        <CardTitle>Ammonium</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Ammonia data for the selected day, every 30 minutes.
+            Ammonium data for the selected day, every 30 minutes.
           </span>
           <span className="@[540px]/card:hidden">Daily Ammonia</span>
         </CardDescription>
