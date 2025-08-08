@@ -10,6 +10,7 @@ import {
   IconLayoutColumns,
   IconDownload,
 } from "@tabler/icons-react";
+import { ChevronDownIcon } from "lucide-react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,13 +21,20 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
+  SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
 import { z } from "zod";
+import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 import {
   DropdownMenu,
@@ -157,6 +165,11 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [startDate, setStartDate] = React.useState<Date | undefined>(new Date()); // Set default to today
+  const [endDate, setEndDate] = React.useState<Date | undefined>(undefined);
+  const [isDownloadPopoverOpen, setIsDownloadPopoverOpen] = React.useState(false); // State for main download popover
+  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = React.useState(false); // State for start date picker popover
+  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = React.useState(false); // State for end date picker popover
 
   React.useEffect(() => {
     setData(initialData);
@@ -191,12 +204,27 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
       .filter((column) => column.getIsVisible() && column.id !== "id") // Exclude 'id' column and hidden columns
       .map((column) => column.id);
 
+    const filteredData = data.filter((row) => {
+      const rowDate = new Date(row.terminaltime);
+      const start = startDate ? new Date(startDate.setHours(0, 0, 0, 0)) : null;
+      const end = endDate ? new Date(endDate.setHours(23, 59, 59, 999)) : null;
+
+      if (start && end) {
+        return rowDate >= start && rowDate <= end;
+      } else if (start) {
+        return rowDate >= start;
+      } else if (end) {
+        return rowDate <= end;
+      }
+      return true; // No date filter applied
+    });
+
     const csv = [
       headers.join(","),
-      ...data.map((row) =>
+      ...filteredData.map((row) =>
         headers
           .map((header) => {
-            let value = row[header as keyof AquaData];
+            let value = (row as any)[header]; // Use any to access properties dynamically
             if (header === "date" || header === "time") {
               const date = new Date(row.terminaltime);
               if (header === "date") {
@@ -215,7 +243,7 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
               }
             } else if (
               header === "temperature" ||
-              header === "ozone" || // Changed from "ozone" to "Ozone"
+              header === "ozone" ||
               header === "ammonium" ||
               header === "oxygen" ||
               header === "conductivity" ||
@@ -237,8 +265,8 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
       link.setAttribute("download", "aqua_data.csv");
       link.style.visibility = "hidden";
       document.body.appendChild(link);
-      link.click();
       document.body.removeChild(link);
+      link.click();
     }
   };
 
@@ -246,11 +274,84 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-end px-4 lg:px-6 py-5">
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleDownload}>
-            <IconDownload />
-            <span className="hidden lg:inline">Download Data</span>
-            <span className="lg:hidden">Download</span>
-          </Button>
+          <Popover open={isDownloadPopoverOpen} onOpenChange={setIsDownloadPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                <IconDownload />
+                <span className="hidden lg:inline">Download Data</span>
+                <span className="lg:hidden">Download</span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto text-sm" align="end">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Download Data</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Select a date range to download data.
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="grid gap-2">
+                    <Label htmlFor="start-date" className="px-1">Start Date</Label>
+                    <Popover open={isStartDatePickerOpen} onOpenChange={setIsStartDatePickerOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          id="start-date"
+                          className="w-48 justify-between font-normal"
+                        >
+                          {startDate ? format(startDate, "PPP") : "Select start date"}
+                          <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={startDate}
+                          onSelect={(date) => {
+                            setStartDate(date);
+                            setIsStartDatePickerOpen(false);
+                          }}
+                          captionLayout="dropdown"
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="end-date" className="px-1">End Date</Label>
+                    <Popover open={isEndDatePickerOpen} onOpenChange={setIsEndDatePickerOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          id="end-date"
+                          className="w-48 justify-between font-normal"
+                        >
+                          {endDate ? format(endDate, "PPP") : "Select end date"}
+                          <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={endDate}
+                          onSelect={(date) => {
+                            setEndDate(date);
+                            setIsEndDatePickerOpen(false);
+                          }}
+                          captionLayout="dropdown"
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+                <Button onClick={handleDownload} disabled={!startDate || !endDate}>
+                  Download CSV
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
