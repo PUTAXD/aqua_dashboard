@@ -42,7 +42,7 @@ type PHDataItem = {
 const chartConfig = {
   pH: {
     label: "pH",
-    color: "hsl(var(--chart-5))",
+    color: "#90EE90", // Lighter green for pH
   },
 } satisfies ChartConfig
 
@@ -114,12 +114,12 @@ export function PHChart({ data }: PHChartProps) {
               <linearGradient id="fillPH" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--chart-5)"
+                  stopColor="#90EE90"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--chart-5)"
+                  stopColor="#90EE90"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -158,7 +158,7 @@ export function PHChart({ data }: PHChartProps) {
               dataKey="pH"
               type="linear"
               fill="url(#fillPH)"
-              stroke="var(--chart-5)"
+              stroke="#90EE90"
               stackId="a"
             />
           </AreaChart>

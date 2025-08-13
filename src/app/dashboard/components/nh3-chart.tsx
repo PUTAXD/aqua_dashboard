@@ -111,7 +111,7 @@ export function NH3Chart({ data }: NH3ChartProps) {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillPH" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillNH3" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
                   stopColor="var(--chart-5)"
@@ -155,9 +155,9 @@ export function NH3Chart({ data }: NH3ChartProps) {
               tickFormatter={(value) => `${value}`}
             />
             <Area
-              dataKey="NH3"
+              dataKey="nh3"
               type="linear"
-              fill="url(#fillPH)"
+              fill="url(#fillNH3)"
               stroke="var(--chart-5)"
               stackId="a"
             />

@@ -65,12 +65,6 @@ import { createClient } from "@/lib/supabase/client"; // Import Supabase client
 
 const columns: ColumnDef<AquaData>[] = [
   {
-    accessorKey: "id",
-    header: () => <div className="ml-5">ID</div>,
-    cell: ({ row }) => <div className="ml-5">{row.original.id}</div>,
-    enableHiding: true, // Changed to true to allow hiding
-  },
-  {
     accessorKey: "date",
     header: "Date",
     cell: ({ row }) => {
@@ -151,6 +145,16 @@ const columns: ColumnDef<AquaData>[] = [
     accessorKey: "tds",
     header: () => <div className="text-center">TDS</div>,
     cell: ({ row }) => <div className="text-center">{row.original.tds ?? 0}</div>,
+  },
+  {
+    accessorKey: "pH",
+    header: () => <div className="text-center">pH</div>,
+    cell: ({ row }) => <div className="text-center">{row.original.pH ?? 0}</div>,
+  },
+  {
+    accessorKey: "nh3",
+    header: () => <div className="text-center">NH3</div>,
+    cell: ({ row }) => <div className="text-center">{row.original.nh3 ?? 0}</div>,
   },
 ];
 
@@ -262,7 +266,9 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
               header === "ammonium" ||
               header === "oxygen" ||
               header === "conductivity" ||
-              header === "tds"
+              header === "tds" ||
+              header === "pH" ||
+              header === "nh3"
             ) {
               value = value ?? 0;
             }
