@@ -11,11 +11,13 @@ import { TemperatureChart } from "./components/temperature-chart";
 import { AquaData } from "@/type/aquaData";
 
 import { OzoneChart } from "./components/ozone-chart";
-import { AmmoniaChart } from "./components/ammonia-chart";
+import { AmmoniaChart } from "./components/ammonium-chart";
 import { OxygenChart } from "./components/oxygen-chart";
 import { ConductivityChart } from "./components/conductivity-chart";
 import { TdsChart } from "./components/tds-chart";
+import {PHChart} from "./components/ph-chart"
 import { AppSidebar } from "./components/app-sidebar";
+import { NH3Chart } from "./components/nh3-chart";
 
 type TemperatureAquaData = {
   Date: string;
@@ -51,6 +53,18 @@ type TdsAquaData = {
   Date: string;
   Time: string;
   tds: number;
+};
+
+type PHAquaData = {
+  Date: string;
+  Time: string;
+  pH: number;
+};
+
+type NH3AquaData = {
+  Date: string;
+  Time: string;
+  nh3: number;
 };
 
 export default function Page() {
@@ -130,6 +144,32 @@ export default function Page() {
   });
   // console.log("Transformed TDS Data:", tdsAquaData);
 
+   const pHAquaData: PHAquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      pH: data.sensor_pH_pH,
+    };
+  });
+  // console.log("Transformed pH Data:", pHAquaData);
+
+  const nh3AquaData: NH3AquaData[] = aquaData.map((data: AquaData) => {
+    const dateTime = new Date(data.terminaltime);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toTimeString().split(' ')[0];
+    return {
+      Date: date,
+      Time: time,
+      nh3: data.nh3,
+    };
+  });
+
+    console.log("Transformed pH Data:", nh3AquaData);
+
+  
   return (
     <SidebarProvider
       style={
@@ -168,11 +208,14 @@ export default function Page() {
                 <div className="px-4 lg:px-6">
                   <ConductivityChart data={conductivityAquaData} />
                 </div>
-                {/* <div className="px-4 lg:px-6">
-                  <ChartLineLinear />
-                </div> */}
                 <div className="px-4 lg:px-6">
                   <TdsChart data={tdsAquaData} />
+                </div>
+                 <div className="px-4 lg:px-6">
+                  <PHChart data={pHAquaData} />
+                </div>
+                <div className="px-4 lg:px-6">
+                  <NH3Chart data={nh3AquaData} />
                 </div>
               </div>
               <DataTable data={aquaData} />

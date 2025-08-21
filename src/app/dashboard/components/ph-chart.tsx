@@ -33,24 +33,24 @@ import {
 
 export const description = "An interactive area chart"
 
-type AmmoniaDataItem = {
+type PHDataItem = {
   Date: string;
   Time: string;
-  ammonia: number;
+  pH: number;
 };
 
 const chartConfig = {
-  ammonia: {
-    label: "Ammonia",
-    color: "hsl(var(--chart-1))",
+  pH: {
+    label: "pH",
+    color: "#90EE90", // Lighter green for pH
   },
 } satisfies ChartConfig
 
-type AmmoniaChartProps = {
-  data: AmmoniaDataItem[];
+type PHChartProps = {
+  data: PHDataItem[];
 };
 
-export function AmmoniaChart({ data }: AmmoniaChartProps) {
+export function PHChart({ data }: PHChartProps) {
   const isMobile = useIsMobile()
   const allDates = React.useMemo(() => {
     const dates = new Set(data.map(item => item.Date));
@@ -78,12 +78,12 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Ammonia</CardTitle>
+        <CardTitle>pH</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Ammonia data for the selected day, every 30 minutes.
+            pH data for the selected day, every 30 minutes.
           </span>
-          <span className="@[540px]/card:hidden">Daily Ammonia</span>
+          <span className="@[540px]/card:hidden">Daily pH</span>
         </CardDescription>
         <CardAction>
           <Select value={selectedDate} onValueChange={setSelectedDate}>
@@ -111,15 +111,15 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillAmmonia" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillPH" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--chart-1)"
+                  stopColor="#90EE90"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--chart-1)"
+                  stopColor="#90EE90"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -152,13 +152,13 @@ export function AmmoniaChart({ data }: AmmoniaChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => `${value} ppm`}
+              tickFormatter={(value) => `${value}`}
             />
             <Area
-              dataKey="ammonia"
+              dataKey="pH"
               type="linear"
-              fill="url(#fillAmmonia)"
-              stroke="var(--chart-1)"
+              fill="url(#fillPH)"
+              stroke="#90EE90"
               stackId="a"
             />
           </AreaChart>

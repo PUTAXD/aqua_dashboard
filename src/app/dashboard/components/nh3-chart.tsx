@@ -33,24 +33,24 @@ import {
 
 export const description = "An interactive area chart"
 
-type OzoneDataItem = {
+type NH3DataItem = {
   Date: string;
   Time: string;
-  ozone: number;
+  nh3: number;
 };
 
 const chartConfig = {
-  ozone: {
-    label: "Ozone",
-    color: "#006400", // Darker green for Ozone
+  nh3: {
+    label: "NH3",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
 
-type OzoneChartProps = {
-  data: OzoneDataItem[];
+type NH3ChartProps = {
+  data: NH3DataItem[];
 };
 
-export function OzoneChart({ data }: OzoneChartProps) {
+export function NH3Chart({ data }: NH3ChartProps) {
   const isMobile = useIsMobile()
   const allDates = React.useMemo(() => {
     const dates = new Set(data.map(item => item.Date));
@@ -78,12 +78,12 @@ export function OzoneChart({ data }: OzoneChartProps) {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Ozone</CardTitle>
+        <CardTitle>NH3</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Ozone data for the selected day, every 30 minutes.
+            NH3 data for the selected day, every 30 minutes.
           </span>
-          <span className="@[540px]/card:hidden">Daily Ozone</span>
+          <span className="@[540px]/card:hidden">Daily NH3</span>
         </CardDescription>
         <CardAction>
           <Select value={selectedDate} onValueChange={setSelectedDate}>
@@ -111,15 +111,15 @@ export function OzoneChart({ data }: OzoneChartProps) {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillOzone" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillNH3" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="#006400"
+                  stopColor="var(--chart-5)"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="#006400"
+                  stopColor="var(--chart-5)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -152,13 +152,13 @@ export function OzoneChart({ data }: OzoneChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => `${value} DU`}
+              tickFormatter={(value) => `${value}`}
             />
             <Area
-              dataKey="ozone"
+              dataKey="nh3"
               type="linear"
-              fill="url(#fillOzone)"
-              stroke="#006400"
+              fill="url(#fillNH3)"
+              stroke="var(--chart-5)"
               stackId="a"
             />
           </AreaChart>
