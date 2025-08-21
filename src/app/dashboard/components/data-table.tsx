@@ -149,7 +149,7 @@ const columns: ColumnDef<AquaData>[] = [
   {
     accessorKey: "pH",
     header: () => <div className="text-center">pH</div>,
-    cell: ({ row }) => <div className="text-center">{row.original.pH ?? 0}</div>,
+    cell: ({ row }) => <div className="text-center">{row.original.sensor_pH_pH ?? 0}</div>,
   },
   {
     accessorKey: "nh3",
