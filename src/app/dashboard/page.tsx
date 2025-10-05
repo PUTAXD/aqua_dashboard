@@ -1,7 +1,5 @@
 "use client";
 
-
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "./components/data-table";
 import { SectionCards } from "./components/section-cards";
 import { SiteHeader } from "@/app/dashboard/components/site-header";
@@ -15,7 +13,7 @@ import { AmmoniaChart } from "./components/ammonium-chart";
 import { OxygenChart } from "./components/oxygen-chart";
 import { ConductivityChart } from "./components/conductivity-chart";
 import { TdsChart } from "./components/tds-chart";
-import {PHChart} from "./components/ph-chart"
+import { PHChart } from "./components/ph-chart";
 import { AppSidebar } from "./components/app-sidebar";
 import { NH3Chart } from "./components/nh3-chart";
 
@@ -86,8 +84,8 @@ export default function Page() {
 
   const ozoneAquaData: OzoneAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -98,8 +96,8 @@ export default function Page() {
 
   const ammoniaAquaData: AmmoniaAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -110,8 +108,8 @@ export default function Page() {
 
   const oxygenAquaData: OxygenAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -120,22 +118,24 @@ export default function Page() {
   });
   // console.log("Transformed Oxygen Data:", oxygenAquaData);
 
-  const conductivityAquaData: ConductivityAquaData[] = aquaData.map((data: AquaData) => {
-    const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
-    return {
-      Date: date,
-      Time: time,
-      conductivity: data.conductivity,
-    };
-  });
+  const conductivityAquaData: ConductivityAquaData[] = aquaData.map(
+    (data: AquaData) => {
+      const dateTime = new Date(data.terminaltime);
+      const date = dateTime.toISOString().split("T")[0];
+      const time = dateTime.toTimeString().split(" ")[0];
+      return {
+        Date: date,
+        Time: time,
+        conductivity: data.conductivity,
+      };
+    }
+  );
   // console.log("Transformed Conductivity Data:", conductivityAquaData);
 
   const tdsAquaData: TdsAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -144,10 +144,10 @@ export default function Page() {
   });
   // console.log("Transformed TDS Data:", tdsAquaData);
 
-   const pHAquaData: PHAquaData[] = aquaData.map((data: AquaData) => {
+  const pHAquaData: PHAquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -158,8 +158,8 @@ export default function Page() {
 
   const nh3AquaData: NH3AquaData[] = aquaData.map((data: AquaData) => {
     const dateTime = new Date(data.terminaltime);
-    const date = dateTime.toISOString().split('T')[0];
-    const time = dateTime.toTimeString().split(' ')[0];
+    const date = dateTime.toISOString().split("T")[0];
+    const time = dateTime.toTimeString().split(" ")[0];
     return {
       Date: date,
       Time: time,
@@ -167,9 +167,8 @@ export default function Page() {
     };
   });
 
-    console.log("Transformed pH Data:", nh3AquaData);
+  console.log("Transformed pH Data:", nh3AquaData);
 
-  
   return (
     <SidebarProvider
       style={
@@ -211,7 +210,7 @@ export default function Page() {
                 <div className="px-4 lg:px-6">
                   <TdsChart data={tdsAquaData} />
                 </div>
-                 <div className="px-4 lg:px-6">
+                <div className="px-4 lg:px-6">
                   <PHChart data={pHAquaData} />
                 </div>
                 <div className="px-4 lg:px-6">

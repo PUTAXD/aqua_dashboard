@@ -1,19 +1,17 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useEffect, useState } from "react"
+import * as React from "react";
+import { useEffect, useState } from "react";
 import {
-  IconDashboard,
-  IconSettings,
   IconGauge,
   IconBubble,
   IconFlame,
   IconSnowflake,
   IconBowl,
   IconClock,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -24,16 +22,15 @@ import {
   SidebarMenuItem,
   SidebarGroup,
   SidebarGroupContent,
-} from "@/components/ui/sidebar"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { createClient } from "@/lib/supabase/client"
+} from "@/components/ui/sidebar";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { createClient } from "@/lib/supabase/client";
 
 const data = {
-  navMain: [
-  ],
-}
+  navMain: [],
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const supabase = createClient();
@@ -200,18 +197,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Switch
                 id="is_auto"
                 checked={is_auto} // Placeholder for automation state
-                onCheckedChange={(newVal : boolean) => 
-                  {setAuto(newVal);
+                onCheckedChange={(newVal: boolean) => {
+                  setAuto(newVal);
                   updateRelay("is_auto", newVal);
-
                 }} // Placeholder for automation change handler
               />
             </div>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-      </SidebarFooter>
+      <SidebarFooter></SidebarFooter>
     </Sidebar>
-  )
+  );
 }

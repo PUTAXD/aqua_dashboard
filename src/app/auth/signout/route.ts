@@ -1,6 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {

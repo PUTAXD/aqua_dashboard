@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { format } from "date-fns";
 
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Card,
   CardAction,
@@ -12,26 +12,21 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-
-export const description = "An interactive area chart"
+} from "@/components/ui/select";
+export const description = "An interactive area chart";
 
 type TemperatureDataItem = {
   Date: string;
@@ -44,20 +39,23 @@ const chartConfig = {
     label: "Temperature",
     color: "hsl(24 9.8% 10%)", // A shade of orange
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 type TemperatureChartProps = {
   data: TemperatureDataItem[];
 };
 
 export function TemperatureChart({ data }: TemperatureChartProps) {
-  const isMobile = useIsMobile()
   const allDates = React.useMemo(() => {
-    const dates = new Set(data.map(item => item.Date));
-    return Array.from(dates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+    const dates = new Set(data.map((item) => item.Date));
+    return Array.from(dates).sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime()
+    );
   }, [data]);
 
-  const [selectedDate, setSelectedDate] = React.useState<string>(allDates[allDates.length - 1] || "");
+  const [selectedDate, setSelectedDate] = React.useState<string>(
+    allDates[allDates.length - 1] || ""
+  );
 
   React.useEffect(() => {
     if (allDates.length > 0 && !allDates.includes(selectedDate)) {
@@ -67,7 +65,7 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
 
   const filteredData = React.useMemo(() => {
     return data
-      .filter(item => item.Date === selectedDate)
+      .filter((item) => item.Date === selectedDate)
       .sort((a, b) => {
         const timeA = new Date(`2000-01-01T${a.Time}`);
         const timeB = new Date(`2000-01-01T${b.Time}`);
@@ -112,11 +110,7 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
           <AreaChart data={filteredData}>
             <defs>
               <linearGradient id="fillTemperature" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--orange)"
-                  stopOpacity={1.0}
-                />
+                <stop offset="5%" stopColor="var(--orange)" stopOpacity={1.0} />
                 <stop
                   offset="95%"
                   stopColor="var(--orange)"
@@ -142,7 +136,9 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
                 <ChartTooltipContent
                   labelFormatter={(value) => {
                     const date = new Date(`2000-01-01T${value}`);
-                    return isNaN(date.getTime()) ? value : format(date, "HH:mm");
+                    return isNaN(date.getTime())
+                      ? value
+                      : format(date, "HH:mm");
                   }}
                   indicator="dot"
                 />
@@ -165,5 +161,5 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

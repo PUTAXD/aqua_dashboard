@@ -25,7 +25,6 @@ import {
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
-import { z } from "zod";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -40,8 +39,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
@@ -100,61 +97,57 @@ const columns: ColumnDef<AquaData>[] = [
     accessorKey: "temperature",
     header: () => <div className="text-center">Temperature</div>,
     cell: ({ row }) => (
-      <div className="text-center">
-        {row.original.temperature ?? 0}
-      </div>
+      <div className="text-center">{row.original.temperature ?? 0}</div>
     ),
   },
   {
     accessorKey: "Ozone",
     header: () => <div className="text-center">Ozone</div>,
     cell: ({ row }) => (
-      <div className="text-center">
-        {row.original.ozone ?? 0}
-      </div>
+      <div className="text-center">{row.original.ozone ?? 0}</div>
     ),
   },
   {
     accessorKey: "ammonium",
     header: () => <div className="text-center">Ammonium</div>,
     cell: ({ row }) => (
-      <div className="text-center">
-        {row.original.ammonium ?? 0}
-      </div>
+      <div className="text-center">{row.original.ammonium ?? 0}</div>
     ),
   },
   {
     accessorKey: "oxygen",
     header: () => <div className="text-center">Oxygen</div>,
     cell: ({ row }) => (
-      <div className="text-center">
-        {row.original.oxygen ?? 0}
-      </div>
+      <div className="text-center">{row.original.oxygen ?? 0}</div>
     ),
   },
   {
     accessorKey: "conductivity",
     header: () => <div className="text-center">Conductivity</div>,
     cell: ({ row }) => (
-      <div className="text-center">
-        {row.original.conductivity ?? 0}
-      </div>
+      <div className="text-center">{row.original.conductivity ?? 0}</div>
     ),
   },
   {
     accessorKey: "tds",
     header: () => <div className="text-center">TDS</div>,
-    cell: ({ row }) => <div className="text-center">{row.original.tds ?? 0}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.original.tds ?? 0}</div>
+    ),
   },
   {
     accessorKey: "pH",
     header: () => <div className="text-center">pH</div>,
-    cell: ({ row }) => <div className="text-center">{row.original.sensor_pH_pH ?? 0}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.original.sensor_pH_pH ?? 0}</div>
+    ),
   },
   {
     accessorKey: "nh3",
     header: () => <div className="text-center">NH3</div>,
-    cell: ({ row }) => <div className="text-center">{row.original.nh3 ?? 0}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.original.nh3 ?? 0}</div>
+    ),
   },
 ];
 
@@ -170,10 +163,14 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     pageIndex: 0,
     pageSize: 10,
   });
-  const [startDate, setStartDate] = React.useState<Date | undefined>(new Date()); // Set default to today
+  const [startDate, setStartDate] = React.useState<Date | undefined>(
+    new Date()
+  ); // Set default to today
   const [endDate, setEndDate] = React.useState<Date | undefined>(undefined);
-  const [isDownloadPopoverOpen, setIsDownloadPopoverOpen] = React.useState(false); // State for main download popover
-  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = React.useState(false); // State for start date picker popover
+  const [isDownloadPopoverOpen, setIsDownloadPopoverOpen] =
+    React.useState(false); // State for main download popover
+  const [isStartDatePickerOpen, setIsStartDatePickerOpen] =
+    React.useState(false); // State for start date picker popover
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = React.useState(false); // State for end date picker popover
 
   React.useEffect(() => {
@@ -203,7 +200,8 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const handleDownload = async () => { // Made function async
+  const handleDownload = async () => {
+    // Made function async
     if (!startDate || !endDate) {
       console.error("Start date and end date must be selected.");
       return;
@@ -218,10 +216,10 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     endOfDay.setHours(23, 59, 59, 999);
 
     const { data: downloadedData, error } = await supabase
-      .from('data_aqua') // Use the provided table name
-      .select('*')
-      .gte('terminaltime', startOfDay.toISOString()) // Use terminaltime column and ISO string for Supabase
-      .lte('terminaltime', endOfDay.toISOString()); // Use terminaltime column and ISO string for Supabase
+      .from("data_aqua") // Use the provided table name
+      .select("*")
+      .gte("terminaltime", startOfDay.toISOString()) // Use terminaltime column and ISO string for Supabase
+      .lte("terminaltime", endOfDay.toISOString()); // Use terminaltime column and ISO string for Supabase
 
     if (error) {
       console.error("Error fetching data from Supabase:", error);
@@ -243,7 +241,7 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
       ...downloadedData.map((row) =>
         headers
           .map((header) => {
-            let value = (row as any)[header]; // Use any to access properties dynamically
+            let value = row[header as keyof AquaData]; // Access properties dynamically with type safety
             if (header === "date" || header === "time") {
               const date = new Date(row.terminaltime);
               if (header === "date") {
@@ -295,7 +293,10 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-end px-4 lg:px-6 py-5">
         <div className="flex items-center gap-2">
-          <Popover open={isDownloadPopoverOpen} onOpenChange={setIsDownloadPopoverOpen}>
+          <Popover
+            open={isDownloadPopoverOpen}
+            onOpenChange={setIsDownloadPopoverOpen}
+          >
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm">
                 <IconDownload />
@@ -313,23 +314,33 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
                 </div>
                 <div className="flex gap-2">
                   <div className="grid gap-2">
-                    <Label htmlFor="start-date" className="px-1">Start Date</Label>
-                    <Popover open={isStartDatePickerOpen} onOpenChange={setIsStartDatePickerOpen}>
+                    <Label htmlFor="start-date" className="px-1">
+                      Start Date
+                    </Label>
+                    <Popover
+                      open={isStartDatePickerOpen}
+                      onOpenChange={setIsStartDatePickerOpen}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           id="start-date"
                           className="w-48 justify-between font-normal"
                         >
-                          {startDate ? format(startDate, "PPP") : "Select start date"}
+                          {startDate
+                            ? format(startDate, "PPP")
+                            : "Select start date"}
                           <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
                         <Calendar
                           mode="single"
                           selected={startDate}
-                          onSelect={(date) => {
+                          onSelect={(date: Date | undefined) => {
                             setStartDate(date);
                             setIsStartDatePickerOpen(false);
                           }}
@@ -340,8 +351,13 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
                     </Popover>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="end-date" className="px-1">End Date</Label>
-                    <Popover open={isEndDatePickerOpen} onOpenChange={setIsEndDatePickerOpen}>
+                    <Label htmlFor="end-date" className="px-1">
+                      End Date
+                    </Label>
+                    <Popover
+                      open={isEndDatePickerOpen}
+                      onOpenChange={setIsEndDatePickerOpen}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -352,11 +368,14 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
                           <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
                         <Calendar
                           mode="single"
                           selected={endDate}
-                          onSelect={(date) => {
+                          onSelect={(date: Date | undefined) => {
                             setEndDate(date);
                             setIsEndDatePickerOpen(false);
                           }}
@@ -367,7 +386,10 @@ export function DataTable({ data: initialData }: { data: AquaData[] }) {
                     </Popover>
                   </div>
                 </div>
-                <Button onClick={handleDownload} disabled={!startDate || !endDate}>
+                <Button
+                  onClick={handleDownload}
+                  disabled={!startDate || !endDate}
+                >
                   Download CSV
                 </Button>
               </div>

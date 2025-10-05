@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { format } from "date-fns";
 
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Card,
   CardAction,
@@ -12,26 +12,21 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-
-export const description = "An interactive area chart"
+} from "@/components/ui/select";
+export const description = "An interactive area chart";
 
 type OxygenDataItem = {
   Date: string;
@@ -44,20 +39,23 @@ const chartConfig = {
     label: "Oxygen",
     color: "hsl(var(--chart-3))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 type OxygenChartProps = {
   data: OxygenDataItem[];
 };
 
 export function OxygenChart({ data }: OxygenChartProps) {
-  const isMobile = useIsMobile()
   const allDates = React.useMemo(() => {
-    const dates = new Set(data.map(item => item.Date));
-    return Array.from(dates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+    const dates = new Set(data.map((item) => item.Date));
+    return Array.from(dates).sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime()
+    );
   }, [data]);
 
-  const [selectedDate, setSelectedDate] = React.useState<string>(allDates[allDates.length - 1] || "");
+  const [selectedDate, setSelectedDate] = React.useState<string>(
+    allDates[allDates.length - 1] || ""
+  );
 
   React.useEffect(() => {
     if (allDates.length > 0 && !allDates.includes(selectedDate)) {
@@ -67,7 +65,7 @@ export function OxygenChart({ data }: OxygenChartProps) {
 
   const filteredData = React.useMemo(() => {
     return data
-      .filter(item => item.Date === selectedDate)
+      .filter((item) => item.Date === selectedDate)
       .sort((a, b) => {
         const timeA = new Date(`2000-01-01T${a.Time}`);
         const timeB = new Date(`2000-01-01T${b.Time}`);
@@ -142,7 +140,9 @@ export function OxygenChart({ data }: OxygenChartProps) {
                 <ChartTooltipContent
                   labelFormatter={(value) => {
                     const date = new Date(`2000-01-01T${value}`);
-                    return isNaN(date.getTime()) ? value : format(date, "HH:mm");
+                    return isNaN(date.getTime())
+                      ? value
+                      : format(date, "HH:mm");
                   }}
                   indicator="dot"
                 />
@@ -165,5 +165,5 @@ export function OxygenChart({ data }: OxygenChartProps) {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,11 +1,9 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
 import { AquaData } from "@/type/aquaData"; // Import AquaData type
 
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -110,12 +108,12 @@ export function SectionCards({ latestData }: { latestData: AquaData | null }) {
           <CardDescription>pH</CardDescription>
         </CardHeader>
         <CardTitle className="ml-6 text-3xl font-semibold tabular-nums @[250px]/card:text-3xl">
-          {latestData.sensor_pH_pH !== undefined ? `${latestData.sensor_pH_pH}` : "N/A"}
+          {latestData.sensor_pH_pH !== undefined
+            ? `${latestData.sensor_pH_pH}`
+            : "N/A"}
         </CardTitle>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            Measure pH of the water.
-          </div>
+          <div className="text-muted-foreground">Measure pH of the water.</div>
         </CardFooter>
       </Card>
 
@@ -127,9 +125,7 @@ export function SectionCards({ latestData }: { latestData: AquaData | null }) {
           {latestData.nh3 !== undefined ? `${latestData.nh3}` : "N/A"}
         </CardTitle>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            Measure NH3 of the water.
-          </div>
+          <div className="text-muted-foreground">Measure NH3 of the water.</div>
         </CardFooter>
       </Card>
     </div>
