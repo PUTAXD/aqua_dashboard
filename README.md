@@ -21,7 +21,7 @@ This project is built using the following key technologies:
 - **React 19:** A JavaScript library for building user interfaces.
 - **Supabase:** An open-source Firebase alternative providing authentication, database, and real-time capabilities.
 - **Tailwind CSS:** A utility-first CSS framework for rapidly building custom designs.
-- **Radix UI:** A collection of unstyled, accessible UI components for React.
+- **Shadcn UI:** A collection of re-usable components built using Radix UI and Tailwind CSS.
 - **Recharts:** A composable charting library built with React and D3.
 - **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
 
